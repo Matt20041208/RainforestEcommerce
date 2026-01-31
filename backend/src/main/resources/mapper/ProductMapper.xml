@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulin.ecommerce.product.mapper.ProductMapper">
+    
+    <resultMap id="BaseResultMap" type="com.yulin.ecommerce.product.entity.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="image" property="image"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="sales" property="sales"/>
+        <result column="enabled" property="enabled"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM t_product WHERE id = #{id}
+    </select>
+    
+    <select id="findByEnabled" resultMap="BaseResultMap">
+        SELECT * FROM t_product
+        <where>
+            <if test="enabled != null">
+                enabled = #{enabled}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    
+    <select id="findByCategoryId" resultMap="BaseResultMap">
+        SELECT * FROM t_product WHERE category_id = #{categoryId} ORDER BY create_time DESC
+    </select>
+    
+    <select id="findByPriceBetween" resultMap="BaseResultMap">
+        SELECT * FROM t_product WHERE price BETWEEN #{minPrice} AND #{maxPrice} ORDER BY create_time DESC
+    </select>
+    
+    <select id="findByNameContaining" resultMap="BaseResultMap">
+        SELECT * FROM t_product WHERE name LIKE '%' || #{name} || '%' ORDER BY create_time DESC
+    </select>
+    
+    <select id="findTop10ByOrderBySalesDesc" resultMap="BaseResultMap">
+        SELECT * FROM t_product ORDER BY sales DESC LIMIT 10
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_product (name, description, image, price, stock, sales, enabled, category_id, create_time, update_time)
+        VALUES (#{name}, #{description}, #{image}, #{price}, #{stock}, #{sales}, #{enabled}, #{categoryId}, NOW(), NOW())
+    </insert>
+    
+    <update id="updateById">
+        UPDATE t_product SET 
+            name = #{name},
+            description = #{description},
+            image = #{image},
+            price = #{price},
+            stock = #{stock},
+            sales = #{sales},
+            enabled = #{enabled},
+            category_id = #{categoryId},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM t_product WHERE id = #{id}
+    </delete>
+</mapper>

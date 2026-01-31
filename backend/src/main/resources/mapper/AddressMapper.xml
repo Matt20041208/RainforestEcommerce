@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulin.ecommerce.address.mapper.AddressMapper">
+    <resultMap id="AddressResult" type="com.yulin.ecommerce.address.entity.Address">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="receiver" property="receiver"/>
+        <result column="phone" property="phone"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="detail_address" property="detailAddress"/>
+        <result column="is_default" property="isDefault"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="AddressResult">
+        SELECT * FROM t_address WHERE user_id = #{userId}
+    </select>
+
+    <select id="findById" resultMap="AddressResult">
+        SELECT * FROM t_address WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.yulin.ecommerce.address.entity.Address">
+        INSERT INTO t_address (user_id, receiver, phone, province, city, district, detail_address, is_default)
+        VALUES (#{userId}, #{receiver}, #{phone}, #{province}, #{city}, #{district}, #{detailAddress}, #{isDefault})
+    </insert>
+
+    <update id="updateById" parameterType="com.yulin.ecommerce.address.entity.Address">
+        UPDATE t_address
+        SET receiver = #{receiver}, phone = #{phone}, province = #{province}, city = #{city}, district = #{district}, detail_address = #{detailAddress}, is_default = #{isDefault}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_address WHERE id = #{id}
+    </delete>
+</mapper>

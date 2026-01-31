@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulin.ecommerce.user.mapper.UserMapper">
+    
+    <resultMap id="BaseResultMap" type="com.yulin.ecommerce.user.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="avatar" property="avatar"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="role" property="role"/>
+    </resultMap>
+    
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE username = #{username}
+    </select>
+    
+    <select id="findByEmail" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE email = #{email}
+    </select>
+    
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE id = #{id}
+    </select>
+    
+    <select id="existsByUsername" resultType="boolean">
+        SELECT COUNT(1) > 0 FROM t_user WHERE username = #{username}
+    </select>
+    
+    <select id="existsByEmail" resultType="boolean">
+        SELECT COUNT(1) > 0 FROM t_user WHERE email = #{email}
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user (username, password, email, phone, address, avatar, gender, birthday, create_time, update_time, role)
+        VALUES (#{username}, #{password}, #{email}, #{phone}, #{address}, #{avatar}, #{gender}, #{birthday}, NOW(), NOW(), #{role})
+    </insert>
+    
+    <update id="updateById">
+        UPDATE t_user SET 
+            username = #{username},
+            password = #{password},
+            email = #{email},
+            phone = #{phone},
+            address = #{address},
+            avatar = #{avatar},
+            gender = #{gender},
+            birthday = #{birthday},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM t_user WHERE id = #{id}
+    </delete>
+</mapper>

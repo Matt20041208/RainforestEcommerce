@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulin.ecommerce.comment.mapper.CommentMapper">
+    <resultMap id="CommentResult" type="com.yulin.ecommerce.comment.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="product_id" property="productId"/>
+        <result column="content" property="content"/>
+        <result column="rating" property="rating"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findByProductId" resultMap="CommentResult">
+        SELECT * FROM t_comment WHERE product_id = #{productId}
+    </select>
+
+    <select id="findByUserId" resultMap="CommentResult">
+        SELECT * FROM t_comment WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.yulin.ecommerce.comment.entity.Comment">
+        INSERT INTO t_comment (user_id, product_id, content, rating, created_at, updated_at)
+        VALUES (#{userId}, #{productId}, #{content}, #{rating}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="updateById" parameterType="com.yulin.ecommerce.comment.entity.Comment">
+        UPDATE t_comment
+        SET content = #{content}, rating = #{rating}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_comment WHERE id = #{id}
+    </delete>
+</mapper>
