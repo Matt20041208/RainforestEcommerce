@@ -519,7 +519,3 @@ backend/src/main/java/com/yulin/ecommerce/
 ## 🤝 贡献指南
 
 欢迎提交 Issue 和 Pull Request！
-
-## 📄 许可证
-
-MIT License
